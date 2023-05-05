@@ -15,7 +15,7 @@ variables:
 
 steps:
 - task: Gradle@2
- displayName: 'Build and sign APK'
+  displayName: 'Build and sign APK'
   inputs:
     gradleWrapperFile: 'gradlew'
     architecture: 'x64'
