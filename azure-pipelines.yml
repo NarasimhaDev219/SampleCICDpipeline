@@ -54,7 +54,7 @@ steps:
     serverEndpoint: 'Updated Build'
     appSlug: 'MouriTech/SampleCICDpipeline'
     releaseNotesOption: 'input'
-    appFile: 'https://dev.azure.com/narasimharaoyin/_apis/resources/Containers/5288639/drop?itemPath=drop%2Fapp%2Fbuild%2Foutputs%2Fapk%2Frelease%2Fapp-release-unsigned.apk'
+    appFile: '$(Build.ArtifactStagingDirectory)/https://dev.azure.com/narasimharaoyin/_apis/resources/Containers/5288639/drop?itemPath=drop%2Fapp%2Fbuild%2Foutputs%2Fapk%2Frelease%2Fapp-release-unsigned.apk'
     releaseNotesInput: 'New features and bug fixes'
     distributionGroup: 'MyAppDemo'
     filePattern: '$(build.artifactstagingdirectory)/*.apk'
