@@ -48,6 +48,15 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
 
+- task: AppCenterDistribute@2
+  displayName: 'Deploy /Users/narasimharaoy/Android Projects/SampleCICDpipeline/app/build/outputs/apk/debug/app-debug.apk to Visual Studio App Center'
+  inputs:
+    serverEndpoint: 'App Center'
+    appSlug: vigimm/Skytube
+    appFile: '/Users/narasimharaoy/Android Projects/SampleCICDpipeline/app/build/outputs/apk/debug/app-debug.apk'
+    symbolsIncludeParentDirectory: false
+  enabled: false
+  condition: succeededOrFailed()
 
 
 
