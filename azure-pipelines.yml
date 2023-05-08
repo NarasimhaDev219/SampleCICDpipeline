@@ -49,14 +49,18 @@ steps:
   condition: succeededOrFailed()
 
 - task: AppCenterDistribute@3
-  displayName: 'Deploy /Users/narasimharaoy/Android Projects/SampleCICDpipeline/app/build/outputs/apk/debug/app-debug.apk to Visual Studio App Center'
+  displayName: Distribute release to App Center
   inputs:
-    serverEndpoint: 'App Center'
-    appSlug: Narasimha
+    serverEndpoint: 'Updated Build'
+    appSlug: 'MouriTech/SampleCICDpipeline'
+    releaseNotesOption: 'input'
     appFile: 'https://dev.azure.com/narasimharaoyin/_apis/resources/Containers/5288639/drop?itemPath=drop%2Fapp%2Fbuild%2Foutputs%2Fapk%2Frelease%2Fapp-release-unsigned.apk'
-    symbolsIncludeParentDirectory: false
+    releaseNotesInput: 'New features and bug fixes'
+    distributionGroup: 'MyAppDemo'
+    filePattern: '$(build.artifactstagingdirectory)/*.apk'
   enabled: false
   condition: succeededOrFailed()
+
 
 
 
