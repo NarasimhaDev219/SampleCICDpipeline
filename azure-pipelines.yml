@@ -1,0 +1,57 @@
+# Android
+# Build your Android project with Gradle.
+# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+trigger:
+- master
+
+pool:
+  vmImage: 'macos-latest'
+
+
+variables:
+  JAVA_HOME: 'Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home'
+
+steps:
+- task: Gradle@2
+  displayName: 'Build and sign APK'
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    architecture: 'x64'
+    workingDirectory: ''
+    tasks: 'assembleRelease'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '11'
+    gradleOptions: '-Xmx3072m'
+    androidSigningScheme: 'apkSignature'
+    signingConfigName: 'release'
+    keystoreFile: '/Users/narasimharaoy/KeystorePath/newsapp_keystorepath'
+    keystorePassword: '$(123456)'
+    keyAlias: 'key0'
+    keyPassword: '$(123456)'
+    testResultsFiles: '**/TEST-*.xml'
+    buildType: 'Release'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**/*.apk'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
+
+
+
+
+
+
+
+    
