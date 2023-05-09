@@ -46,7 +46,7 @@ steps:
   displayName: 'Build and sign APK'
   inputs:
     apkFiles: '$(build.artifactStagingDirectory)/*.apk'
-    apksignerKeystoreFile: '/Users/narasimharaoy/KeystorePath/newsapp_keystorepath'
+    apksignerKeystoreFile: '/Users/KeyStore/smpleapp'
     apksignerKeystorePassword: '$(123456)'
     apksignerKeystoreAlias: 'key0'
     apksignerKeyPassword: '$(123456)'
