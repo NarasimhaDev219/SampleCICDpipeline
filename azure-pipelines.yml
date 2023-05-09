@@ -51,8 +51,8 @@ steps:
 - task: AppCenterDistribute@3
   displayName: Distribute release to App Center
   inputs:
-    serverEndpoint: 'Updated Build'
-    appSlug: 'MouriTech/SampleCICDpipeline'
+    serverEndpoint: 'UpdatedBuild'
+    appSlug: 'mouritech.com/apps/SampleCICDpipeline'
     releaseNotesOption: 'input'
     appFile: 'drop/app/build/outputs/apk/release/app-release.apk'
     artifactsPattern: '**/*.apk'
