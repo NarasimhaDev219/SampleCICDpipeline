@@ -47,9 +47,7 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
-    publishLocation: 'Azure Pipeline'
  
-
 - task: AppCenterDistribute@3
   displayName: Distribute release to App Center
   inputs:
