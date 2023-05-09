@@ -12,10 +12,12 @@ pool:
 
 variables:
   JAVA_HOME: 'Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home'
+  keystorePassword: '123456'
+  keyPassword: '123456'
 
 steps:
 - task: Gradle@2
-  displayName: 'Build and sign APK'
+  displayName: 'Gradle@2'
   inputs:
     gradleWrapperFile: 'gradlew'
     architecture: 'x64'
@@ -24,15 +26,16 @@ steps:
     publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '11'
-    gradleOptions: '-Xmx3072m'
+    gradleOptions: '-Xmx3072m -Xms3072m -XX:NewSize=1024m -XX:MaxNewSize=1024m -XX:+UseParallelGC'
     androidSigningScheme: 'apkSignature'
     signingConfigName: 'release'
-    keystoreFile: '/Users/narasimharaoy/KeystorePath/newsapp_keystorepath'
-    keystorePassword: '$(123456)'
-    keyAlias: 'key0'
-    keyPassword: '$(123456)'
+    runTestsInBackground: false
+    checkStyleRunAnalysis: true
+    findBugsRunAnalysis: true
+    pmdRunAnalysis: true
     testResultsFiles: '**/TEST-*.xml'
     buildType: 'Release'
+    analysisResultsFiles: '**/reports/*-checkstyle.xml,**/reports/*-findbugs.xml,**/reports/*-pmd.xml'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
@@ -41,6 +44,17 @@ steps:
     Contents: '**/*.apk'
     TargetFolder: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
+
+- task: AndroidSigning@3
+  displayName: 'Build and sign APK'
+  inputs:
+    apkFiles: '$(build.artifactStagingDirectory)/*.apk'
+    apksignerKeystoreFile: '/Users/narasimharaoy/KeystorePath/newsapp_keystorepath'
+    apksignerKeystorePassword: '$(123456)'
+    apksignerKeystoreAlias: 'key0'
+    apksignerKeyPassword: '$(123456)'
+    apksignerArguments: '--out $(build.artifactStagingDirectory)/$(apkName)-signed.apk'
+
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
