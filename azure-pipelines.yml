@@ -54,7 +54,7 @@ steps:
     serverEndpoint: 'Updated Build'
     appSlug: 'MouriTech/SampleCICDpipeline'
     releaseNotesOption: 'input'
-    appFile: 'android/app/build/outputs/apk/release/app-release.apk'
+    appFile: 'app/build/outputs/apk/release/app-release.apk'
     artifactsPattern: '**/*.apk'
     releaseNotesInput: 'New features and bug fixes'
     distributionGroup: 'MyAppDemo'
