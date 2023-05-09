@@ -46,8 +46,8 @@ steps:
   displayName: 'Publish Artifact: drop'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'android'
-    publishLocation: 'Container'
+    ArtifactName: 'drop'
+    publishLocation: 'Azure Pipeline'
   condition: succeededOrFailed()
 
 - task: AppCenterDistribute@3
