@@ -12,10 +12,12 @@ pool:
 
 variables:
   JAVA_HOME: 'Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home'
+  keystorePassword: '123456'
+  keyPassword: '123456'
 
 steps:
 - task: Gradle@2
-  displayName: 'Build and sign APK'
+  displayName: 'Gradle@2'
   inputs:
     gradleWrapperFile: 'gradlew'
     architecture: 'x64'
@@ -24,15 +26,13 @@ steps:
     publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '11'
-    gradleOptions: '-Xmx3072m'
-    androidSigningScheme: 'apkSignature'
-    signingConfigName: 'release'
-    keystoreFile: '/Users/narasimharaoy/KeystorePath/newsapp_keystorepath'
-    keystorePassword: '$(123456)'
-    keyAlias: 'key0'
-    keyPassword: '$(123456)'
+    gradleOptions: '-Xmx3072m -Xms3072m -XX:NewSize=1024m -XX:MaxNewSize=1024m -XX:+UseParallelGC'
+    runTestsInBackground: false
+    checkStyleRunAnalysis: true
+    findBugsRunAnalysis: true
+    pmdRunAnalysis: true
     testResultsFiles: '**/TEST-*.xml'
-    buildType: 'Release'
+    analysisResultsFiles: '**/reports/*-checkstyle.xml,**/reports/*-findbugs.xml,**/reports/*-pmd.xml'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
@@ -42,26 +42,42 @@ steps:
     TargetFolder: '$(build.artifactstagingdirectory)'
   condition: succeededOrFailed()
 
+- task: AndroidSigning@3
+  displayName: 'Build and sign APK'
+  inputs:
+    apkFiles: '$(build.artifactStagingDirectory)/*.apk'
+    apksignerKeystoreFile: '$(/Users/KeyStore/smpleapp)'
+    apksignerKeystoreAlias: '$(SampleCICDpipeline)'
+    apksignerKeyPassword: '$(123456)'
+    apksignerKeystorePassword: '$(123456)'
+    buildType: 'Release'
+    androidSigningScheme: 'apkSignature'
+    signingConfigName: 'myConfig'
+    apksignerArguments: '--out $(build.artifactStagingDirectory)/$(apkName)-signed.apk'
+
+
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+  displayName: PublishBuildArtifacts
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    ArtifactName: 'signed-apk'
+    publishLocation: 'Container'
  
 - task: AppCenterDistribute@3
   displayName: Distribute release to App Center
   inputs:
-    serverEndpoint: 'Updated Build'
-    appSlug: 'MouriTech/SampleCICDpipeline'
+    serverEndpoint: 'UpdatedBuild'
+    appSlug: 'narasimharaoy.in-mouritech.com/SampleCICDpipeline'
     releaseNotesOption: 'input'
-    appFile: 'app/build/outputs/apk/release/app-release.apk'
+    appFile: '**/*.apk'
     artifactsPattern: '**/*.apk'
     releaseNotesInput: 'New features and bug fixes'
+    destinationType: 'groups'
     distributionGroup: 'MyAppDemo'
     isMandatory: true
     distributionGroupId: 'fbc8c624-5cbd-42c6-bf52-f712edf94605'
     filePattern: '$(build.artifactstagingdirectory)/*.apk'
-  enabled: false
+  enabled: true
   condition: succeededOrFailed()
 
 
