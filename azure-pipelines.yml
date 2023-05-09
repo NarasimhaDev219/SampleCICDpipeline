@@ -54,7 +54,7 @@ steps:
     serverEndpoint: 'UpdatedBuild'
     appSlug: 'narasimharaoy.in-mouritech.com/SampleCICDpipeline'
     releaseNotesOption: 'input'
-    appFile: 'https://dev.azure.com/narasimharaoyin/_apis/resources/Containers/5289964/drop?itemPath=drop%2Fapp%2Fbuild%2Foutputs%2Fapk%2Frelease%2Fapp-release-unsigned.apk'
+    appFile: '**/*.apk'
     artifactsPattern: '**/*.apk'
     releaseNotesInput: 'New features and bug fixes'
     destinationType: 'groups'
