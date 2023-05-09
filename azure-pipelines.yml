@@ -62,7 +62,7 @@ steps:
     isMandatory: true
     distributionGroupId: 'fbc8c624-5cbd-42c6-bf52-f712edf94605'
     filePattern: '$(build.artifactstagingdirectory)/*.apk'
-  enabled: false
+  enabled: true
   condition: succeededOrFailed()
 
 
