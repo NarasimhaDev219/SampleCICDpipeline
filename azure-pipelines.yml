@@ -27,18 +27,11 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '11'
     gradleOptions: '-Xmx3072m -Xms3072m -XX:NewSize=1024m -XX:MaxNewSize=1024m -XX:+UseParallelGC'
-    androidSigningScheme: 'apkSignature'
-    signingConfigName: 'release'
-    keystoreFile: '/Users/narasimharaoy/KeystorePath/newsapp_keystorepath'
-    keystorePassword: '$(123456)'
-    keyAlias: 'key0'
     runTestsInBackground: false
     checkStyleRunAnalysis: true
     findBugsRunAnalysis: true
     pmdRunAnalysis: true
-    keyPassword: '$(123456)'
     testResultsFiles: '**/TEST-*.xml'
-    buildType: 'Release'
     analysisResultsFiles: '**/reports/*-checkstyle.xml,**/reports/*-findbugs.xml,**/reports/*-pmd.xml'
 
 - task: CopyFiles@2
@@ -57,14 +50,18 @@ steps:
     apksignerKeystorePassword: '$(123456)'
     apksignerKeystoreAlias: 'key0'
     apksignerKeyPassword: '$(123456)'
+    buildType: 'Release'
+    androidSigningScheme: 'apkSignature'
+    signingConfigName: 'myConfig'
     apksignerArguments: '--out $(build.artifactStagingDirectory)/$(apkName)-signed.apk'
 
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+  displayName: PublishBuildArtifacts
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    ArtifactName: 'signed-apk'
+    publishLocation: 'Container'
  
 - task: AppCenterDistribute@3
   displayName: Distribute release to App Center
