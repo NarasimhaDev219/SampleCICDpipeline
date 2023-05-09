@@ -29,10 +29,14 @@ steps:
     gradleOptions: '-Xmx3072m -Xms3072m -XX:NewSize=1024m -XX:MaxNewSize=1024m -XX:+UseParallelGC'
     androidSigningScheme: 'apkSignature'
     signingConfigName: 'release'
+    keystoreFile: '/Users/narasimharaoy/KeystorePath/newsapp_keystorepath'
+    keystorePassword: '$(123456)'
+    keyAlias: 'key0'
     runTestsInBackground: false
     checkStyleRunAnalysis: true
     findBugsRunAnalysis: true
     pmdRunAnalysis: true
+    keyPassword: '$(123456)'
     testResultsFiles: '**/TEST-*.xml'
     buildType: 'Release'
     analysisResultsFiles: '**/reports/*-checkstyle.xml,**/reports/*-findbugs.xml,**/reports/*-pmd.xml'
