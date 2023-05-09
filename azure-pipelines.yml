@@ -46,10 +46,10 @@ steps:
   displayName: 'Build and sign APK'
   inputs:
     apkFiles: '$(build.artifactStagingDirectory)/*.apk'
-    apksignerKeystoreFile: '/Users/KeyStore/smpleapp'
-    apksignerKeystorePassword: '$(123456)'
-    apksignerKeystoreAlias: 'SampleCICDpipeline'
+    apksignerKeystoreFile: '$(/Users/KeyStore/smpleapp)'
+    apksignerKeystoreAlias: '$(SampleCICDpipeline)'
     apksignerKeyPassword: '$(123456)'
+    apksignerKeystorePassword: '$(123456)'
     buildType: 'Release'
     androidSigningScheme: 'apkSignature'
     signingConfigName: 'myConfig'
